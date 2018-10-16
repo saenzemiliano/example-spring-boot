@@ -6,9 +6,7 @@
 package com.example.springboot.demospringboot.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,19 +14,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author esaenz
  */
 @Entity
-@Table(name = "CUSTOMER", schema = "APP")
+@Table(name = "CUSTOMER")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
@@ -47,7 +42,6 @@ public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CUSTOMER_ID")
     private Integer customerId;
     @Size(max = 30)
@@ -79,8 +73,6 @@ public class Customer implements Serializable {
     private String email;
     @Column(name = "CREDIT_LIMIT")
     private Integer creditLimit;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<PurchaseOrder> purchaseOrderCollection;
     @JoinColumn(name = "DISCOUNT_CODE", referencedColumnName = "DISCOUNT_CODE")
     @ManyToOne(optional = false)
     private DiscountCode discountCode;
@@ -173,15 +165,6 @@ public class Customer implements Serializable {
 
     public void setCreditLimit(Integer creditLimit) {
         this.creditLimit = creditLimit;
-    }
-
-    @XmlTransient
-    public Collection<PurchaseOrder> getPurchaseOrderCollection() {
-        return purchaseOrderCollection;
-    }
-
-    public void setPurchaseOrderCollection(Collection<PurchaseOrder> purchaseOrderCollection) {
-        this.purchaseOrderCollection = purchaseOrderCollection;
     }
 
     public DiscountCode getDiscountCode() {

@@ -11,6 +11,7 @@ package com.example.springboot.demospringboot.repository;
  */
 import com.example.springboot.demospringboot.model.Customer;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
     List<Customer> findByName(@Param("name") String name);
+    
+    @Query("SELECT c FROM Customer c WHERE c.zip.zipCode=:zip")
+    List<Customer> findByZip(@Param("zip") String zip);
 }

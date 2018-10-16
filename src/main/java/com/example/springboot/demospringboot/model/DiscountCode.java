@@ -17,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author esaenz
  */
 @Entity
-@Table(name = "DISCOUNT_CODE", schema = "APP")
+@Table(name = "DISCOUNT_CODE")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DiscountCode.findAll", query = "SELECT d FROM DiscountCode d")
@@ -38,7 +37,6 @@ public class DiscountCode implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 1)
     @Column(name = "DISCOUNT_CODE")
     private String discountCode;

@@ -19,7 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author esaenz
  */
 @Entity
-@Table(name = "PURCHASE_ORDER", schema = "APP")
+@Table(name = "PURCHASE_ORDER")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PurchaseOrder.findAll", query = "SELECT p FROM PurchaseOrder p")
@@ -43,7 +42,6 @@ public class PurchaseOrder implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ORDER_NUM")
     private Integer orderNum;
     @Column(name = "QUANTITY")

@@ -10,17 +10,21 @@ package com.example.springboot.demospringboot.rest;
  * @author esaenz
  */
 import com.example.springboot.demospringboot.model.Customer;
+import com.example.springboot.demospringboot.repository.CustomerRepository;
+import java.util.List;
 import javax.ws.rs.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CustumerController {
+public class CustumerRestController {
 
-    
-    
-    @RequestMapping("/customer/{id}")
-    public Customer findById(@PathParam(value="id") Integer id) {
-        return null;
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @RequestMapping("/customer/zip/{zip}")
+    public List<Customer> findByName(@PathParam(value = "zip") String zip) {
+        return customerRepository.findByZip(zip);
     }
 }

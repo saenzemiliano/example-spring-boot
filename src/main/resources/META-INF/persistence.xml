@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.example.spring-boot_demo-spring-boot_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.example.springboot.demospringboot.model.Manufacturer</class>
     <class>com.example.springboot.demospringboot.model.ProductCode</class>
     <class>com.example.springboot.demospringboot.model.Product</class>
@@ -10,11 +10,10 @@
     <class>com.example.springboot.demospringboot.model.PurchaseOrder</class>
     <class>com.example.springboot.demospringboot.model.Customer</class>
     <properties>
-      <property name="javax.persistence.jdbc." value="org.apache.derby.jdbc.EmbeddedDriver"/>
-      <property name="javax.persistence.jdbc.url" value=""/>
-      <property name="javax.persistence.jdbc.user" value=""/>
-      <property name="javax.persistence.jdbc.driver" value=""/>
-      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
+      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="javax.persistence.jdbc.password" value="app"/>
     </properties>
   </persistence-unit>
 </persistence>
