@@ -43,8 +43,6 @@ public class DiscountCode implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "RATE")
     private BigDecimal rate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "discountCode")
-    private Collection<Customer> customerCollection;
 
     public DiscountCode() {
     }
@@ -67,15 +65,6 @@ public class DiscountCode implements Serializable {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
-    }
-
-    @XmlTransient
-    public Collection<Customer> getCustomerCollection() {
-        return customerCollection;
-    }
-
-    public void setCustomerCollection(Collection<Customer> customerCollection) {
-        this.customerCollection = customerCollection;
     }
 
     @Override

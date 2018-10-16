@@ -12,19 +12,20 @@ package com.example.springboot.demospringboot.rest;
 import com.example.springboot.demospringboot.model.Customer;
 import com.example.springboot.demospringboot.repository.CustomerRepository;
 import java.util.List;
-import javax.ws.rs.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("customer")
 public class CustumerRestController {
 
     @Autowired
     private CustomerRepository customerRepository;
 
-    @RequestMapping("/customer/zip/{zip}")
-    public List<Customer> findByName(@PathParam(value = "zip") String zip) {
-        return customerRepository.findByZip(zip);
+    @RequestMapping("/zip/{zip}")
+    public List<Customer> findByZip(@PathVariable(value = "zip") String zip) {
+        return customerRepository.fetchByZipCode(zip);
     }
 }

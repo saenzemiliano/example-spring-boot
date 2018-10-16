@@ -22,6 +22,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
     List<Customer> findByName(@Param("name") String name);
     
-    @Query("SELECT c FROM Customer c WHERE c.zip.zipCode=:zip")
-    List<Customer> findByZip(@Param("zip") String zip);
+    @Query("SELECT c FROM Customer c INNER JOIN c.zip z WHERE z.zipCode=:zipCode")
+    List<Customer> fetchByZipCode(@Param("zipCode") String zipCode);
 }
