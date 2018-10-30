@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Getting Started: Serving Web Content</title>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th> ID </th>
+                    <th> Name </th>
+                    <th> City </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${customers.empty}">
+                    <td colspan="3"> No Customers Available </td>
+                </tr>
+                <tr th:each="item : ${customers}">
+                    <td><span th:text="${item.customerId}"> ID </span></td>
+                    <td><span th:text="${item.name}"> Name </span></td>
+                    <td><span th:text="${item.city}"> City </span></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
