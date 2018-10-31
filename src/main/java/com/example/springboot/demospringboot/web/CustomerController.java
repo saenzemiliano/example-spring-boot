@@ -12,7 +12,7 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @GetMapping("/customer")
+    @GetMapping("/page/customer")
     public String showAll(Model model) {
         model.addAttribute("customers", customerRepository.findAll());
         return "customer";
