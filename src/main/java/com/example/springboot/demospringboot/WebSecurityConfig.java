@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
@@ -17,17 +19,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/home", "/resources/**", "/public/**").permitAll()
+                .antMatchers("/", "/resources/**", "/page/public/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginPage("/login")
+                .loginPage("/page/login")
                 .permitAll()
                 .and()
             .logout()
                 .permitAll();
     }
+    
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user =
+//                User.withUsername("uesr")
+//                .password("pass")
+//                .roles("USER")
+//                .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
+//                .build();
+//        return new InMemoryUserDetailsManager(user);
+//    }
+    
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
