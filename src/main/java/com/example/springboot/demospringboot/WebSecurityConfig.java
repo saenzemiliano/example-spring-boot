@@ -21,15 +21,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/", "/resources/**", "/page/public/**").permitAll()
+                .antMatchers("/repo/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
-                .and()
+            .and()
                 .formLogin()
                 .loginPage("/page/login")
                 .permitAll()
-                .and()
+            .and()
                 .logout()
                 .permitAll();
     }
@@ -39,21 +39,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
         jdbcUserDetailsManager.setDataSource(dataSource);
 
-         UserDetails user =
+        UserDetails user =
                 User.withUsername("user")
                 .password("password")
-                .roles("USER", "ADMIN", "OPERATOR")
+                .roles("USER", "OPERATOR")
+                .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
+                .build();
+         
+        UserDetails admin =
+                User.withUsername("admin")
+                .password("password")
+                .roles("USER", "OPERATOR", "ADMIN")
                 .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
                 .build();
         
-        if (!jdbcUserDetailsManager.userExists(user.getUsername())) {
-            jdbcUserDetailsManager.createUser(user);
-        } else {
-            jdbcUserDetailsManager.updateUser(user);
-        }
 
+        addUser(jdbcUserDetailsManager, user);
+        addUser(jdbcUserDetailsManager, admin);
+        
         return jdbcUserDetailsManager;
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -73,4 +79,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //        return new InMemoryUserDetailsManager(user);
 //    }
+
+    private void addUser(JdbcUserDetailsManager jdbcUserDetailsManager, UserDetails user) {
+        if (!jdbcUserDetailsManager.userExists(user.getUsername())) {
+            jdbcUserDetailsManager.createUser(user);
+        } else {
+            jdbcUserDetailsManager.updateUser(user);
+        }
+    }
 }

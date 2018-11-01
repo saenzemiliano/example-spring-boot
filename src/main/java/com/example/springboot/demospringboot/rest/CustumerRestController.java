@@ -28,4 +28,6 @@ public class CustumerRestController {
     public List<Customer> findByZip(@PathVariable(value = "zip") String zip) {
         return customerRepository.fetchByZipCode(zip);
     }
+
+    
 }
