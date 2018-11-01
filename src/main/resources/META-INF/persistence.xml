@@ -9,6 +9,10 @@
     <class>com.example.springboot.demospringboot.model.DiscountCode</class>
     <class>com.example.springboot.demospringboot.model.PurchaseOrder</class>
     <class>com.example.springboot.demospringboot.model.Customer</class>
+    <class>com.example.springboot.demospringboot.model.Groups</class>
+    <class>com.example.springboot.demospringboot.model.Authorities</class>
+    <class>com.example.springboot.demospringboot.model.Users</class>
+    <class>com.example.springboot.demospringboot.model.GroupAuthorities</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
       <property name="javax.persistence.jdbc.user" value="app"/>
