@@ -7,6 +7,7 @@ package com.example.springboot.demospringboot;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,29 +18,25 @@ import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
-import org.springframework.util.Assert;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.lang.Nullable;
-import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  *
  * @author esaenz
  */
-public class JdbcAuthoritiesPopulator implements LdapAuthoritiesPopulator {
+public class JdbcAuthoritiesPopulator extends JdbcDaoSupport implements LdapAuthoritiesPopulator {
     // ~ Static fields/initializers
     // =====================================================================================
 
-    private static final Log logger = LogFactory
+    private static final Log LOGGER = LogFactory
             .getLog(JdbcAuthoritiesPopulator.class);
 
-    @Nullable
-    private JdbcTemplate jdbcTemplate;
+    // ~ Instance fields
+    // ================================================================================================
 
     public static final String DEF_USERS_BY_USERNAME_QUERY = "select username,password,enabled "
             + "from users " + "where username = ?";
@@ -49,11 +46,10 @@ public class JdbcAuthoritiesPopulator implements LdapAuthoritiesPopulator {
             + "from groups g, group_members gm, group_authorities ga "
             + "where gm.username = ? " + "and g.id = ga.group_id "
             + "and g.id = gm.group_id";
-
     /**
      * The role prefix that will be prepended to each role name
      */
-    private String rolePrefix = "ROLE_";
+    private String rolePrefix = "" /*ROLE_*/;
 
     /**
      * Should we convert the role name to uppercase
@@ -66,10 +62,9 @@ public class JdbcAuthoritiesPopulator implements LdapAuthoritiesPopulator {
     private boolean enableAuthorities = true;
     private boolean enableGroups;
 
-    protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
-
+    // ~ Constructors
+    // ===================================================================================================
     public JdbcAuthoritiesPopulator() {
-        this.jdbcTemplate = null;
         this.usersByUsernameQuery = DEF_USERS_BY_USERNAME_QUERY;
         this.authoritiesByUsernameQuery = DEF_AUTHORITIES_BY_USERNAME_QUERY;
         this.groupAuthoritiesByUsernameQuery = DEF_GROUP_AUTHORITIES_BY_USERNAME_QUERY;
@@ -103,12 +98,12 @@ public class JdbcAuthoritiesPopulator implements LdapAuthoritiesPopulator {
             @Override
             public GrantedAuthority mapRow(ResultSet rs, int rowNum)
                     throws SQLException {
-                String roleName = rs.getString(2);
+                String roleName = JdbcAuthoritiesPopulator.this.rolePrefix + rs.getString(2);
                 if (convertToUpperCase) {
                     roleName = roleName.toUpperCase();
                 }
 
-                JdbcAuthoritiesPopulator.this.logger.info("loadUserAuthorities(...) -> ["+ username + ","+ roleName +"]");
+                LOGGER.info("loadUserAuthorities(...) -> [" + username + "," + roleName + "]");
                 return new SimpleGrantedAuthority(roleName);
             }
         });
@@ -126,11 +121,11 @@ public class JdbcAuthoritiesPopulator implements LdapAuthoritiesPopulator {
             @Override
             public GrantedAuthority mapRow(ResultSet rs, int rowNum)
                     throws SQLException {
-                String roleName = rs.getString(3);
+                String roleName = JdbcAuthoritiesPopulator.this.rolePrefix + rs.getString(3);
                 if (convertToUpperCase) {
                     roleName = roleName.toUpperCase();
                 }
-                JdbcAuthoritiesPopulator.this.logger.info("loadGroupAuthorities(...) -> ["+ username + ","+ roleName +"]");
+                LOGGER.info("loadGroupAuthorities(...) -> [" + username + "," + roleName + "]");
                 return new SimpleGrantedAuthority(roleName);
             }
         });
@@ -152,37 +147,14 @@ public class JdbcAuthoritiesPopulator implements LdapAuthoritiesPopulator {
         addCustomAuthorities(username, dbAuths);
 
         if (dbAuths.isEmpty()) {
-            this.logger.debug("User '" + username
+            LOGGER.debug("User '" + username
                     + "' has no authorities and will be treated as 'not found'");
-
-            throw new UsernameNotFoundException(this.messages.getMessage(
-                    "JdbcDaoImpl.noAuthority", new Object[]{username},
-                    "User {0} has no GrantedAuthority"));
+            throw new UsernameNotFoundException(MessageFormat.format(
+                    "User {0} has no GrantedAuthority", 
+                    new Object[]{username}));
         }
 
         return dbAuths;
-    }
-
-    /**
-     * Sets the prefix which will be prepended to the values loaded from the
-     * directory. Defaults to "ROLE_" for compatibility with <tt>RoleVoter</tt>.
-     *
-     * @param rolePrefix
-     */
-    public void setRolePrefix(String rolePrefix) {
-        Assert.notNull(rolePrefix, "rolePrefix must not be null");
-        this.rolePrefix = rolePrefix;
-    }
-
-    /**
-     * Returns the role prefix used by this populator Method available so that
-     * classes extending this can override
-     *
-     * @return the role prefix
-     * @see #setRolePrefix(String)
-     */
-    protected final String getRolePrefix() {
-        return this.rolePrefix;
     }
 
     /**
@@ -206,74 +178,100 @@ public class JdbcAuthoritiesPopulator implements LdapAuthoritiesPopulator {
     }
 
     /**
-     * Set the JdbcTemplate for this DAO explicitly, as an alternative to
-     * specifying a DataSource.
+     * Allows the default query string used to retrieve authorities based on
+     * username to be overridden, if default table or column names need to be
+     * changed. The default query is {@link #DEF_AUTHORITIES_BY_USERNAME_QUERY};
+     * when modifying this query, ensure that all returned columns are mapped
+     * back to the same column positions as in the default query.
      *
-     * @param jdbcTemplate
+     * @param queryString The SQL query string to set
      */
-    public final void setJdbcTemplate(@Nullable JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        initTemplateConfig();
+    public void setAuthoritiesByUsernameQuery(String queryString) {
+        this.authoritiesByUsernameQuery = queryString;
+    }
+
+    protected String getAuthoritiesByUsernameQuery() {
+        return this.authoritiesByUsernameQuery;
     }
 
     /**
-     * Return the JdbcTemplate for this DAO, pre-initialized with the DataSource
-     * or set explicitly.
+     * Allows the default query string used to retrieve group authorities based
+     * on username to be overridden, if default table or column names need to be
+     * changed. The default query is
+     * {@link #DEF_GROUP_AUTHORITIES_BY_USERNAME_QUERY}; when modifying this
+     * query, ensure that all returned columns are mapped back to the same
+     * column positions as in the default query.
      *
-     * @return
+     * @param queryString The SQL query string to set
      */
-    @Nullable
-    public final JdbcTemplate getJdbcTemplate() {
-        return this.jdbcTemplate;
+    public void setGroupAuthoritiesByUsernameQuery(String queryString) {
+        this.groupAuthoritiesByUsernameQuery = queryString;
     }
 
     /**
-     * Initialize the template-based configuration of this DAO. Called after a
-     * new JdbcTemplate has been set, either directly or through a DataSource.
-     * <p>
-     * This implementation is empty. Subclasses may override this to configure
-     * further objects based on the JdbcTemplate.
+     * Allows a default role prefix to be specified. If this is set to a
+     * non-empty value, then it is automatically prepended to any roles read in
+     * from the db. This may for example be used to add the <tt>ROLE_</tt>
+     * prefix expected to exist in role names (by default) by some other Spring
+     * Security classes, in the case that the prefix is not already present in
+     * the db.
      *
-     * @see #getJdbcTemplate()
+     * @param rolePrefix the new prefix
      */
-    protected void initTemplateConfig() {
+    public void setRolePrefix(String rolePrefix) {
+        this.rolePrefix = rolePrefix;
+    }
+
+    protected String getRolePrefix() {
+        return this.rolePrefix;
     }
 
     /**
-     * Set the JDBC DataSource to be used by this DAO.
-     *
-     * @param dataSource
+     * Enables loading of authorities (roles) from the authorities table.
+     * Defaults to true
+     * @param enableAuthorities
      */
-    public final void setDataSource(DataSource dataSource) {
-        if (this.jdbcTemplate == null || dataSource != this.jdbcTemplate.getDataSource()) {
-            this.jdbcTemplate = createJdbcTemplate(dataSource);
-            initTemplateConfig();
-        }
+    public void setEnableAuthorities(boolean enableAuthorities) {
+        this.enableAuthorities = enableAuthorities;
+    }
+
+    protected boolean getEnableAuthorities() {
+        return this.enableAuthorities;
     }
 
     /**
-     * Create a JdbcTemplate for the given DataSource. Only invoked if
-     * populating the DAO with a DataSource reference!
-     * <p>
-     * Can be overridden in subclasses to provide a JdbcTemplate instance with
-     * different configuration, or a custom JdbcTemplate subclass.
+     * Enables support for group authorities. Defaults to false
      *
-     * @param dataSource the JDBC DataSource to create a JdbcTemplate for
-     * @return the new JdbcTemplate instance
-     * @see #setDataSource
+     * @param enableGroups
      */
-    protected JdbcTemplate createJdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+    public void setEnableGroups(boolean enableGroups) {
+        this.enableGroups = enableGroups;
+    }
+
+    protected boolean getEnableGroups() {
+        return this.enableGroups;
     }
 
     /**
-     * Return the JDBC DataSource used by this DAO.
+     * Allows the default query string used to retrieve users based on username
+     * to be overridden, if default table or column names need to be changed.
+     * The default query is {@link #DEF_USERS_BY_USERNAME_QUERY}; when modifying
+     * this query, ensure that all returned columns are mapped back to the same
+     * column positions as in the default query. If the 'enabled' column does
+     * not exist in the source database, a permanent true value for this column
+     * may be returned by using a query similar to
      *
-     * @return
+     * <pre>
+     * &quot;select username,password,'true' as enabled from users where username = ?&quot;
+     * </pre>
+     *
+     * @param usersByUsernameQueryString The query string to set
      */
-    @Nullable
-    public final DataSource getDataSource() {
-        return (this.jdbcTemplate != null ? this.jdbcTemplate.getDataSource() : null);
+    public void setUsersByUsernameQuery(String usersByUsernameQueryString) {
+        this.usersByUsernameQuery = usersByUsernameQueryString;
     }
 
+    public String getUsersByUsernameQuery() {
+        return this.usersByUsernameQuery;
+    }
 }
