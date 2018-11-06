@@ -5,6 +5,7 @@
 - Securing a Web Application (LDAP Authentication and JDBC Authorization)
 - Accessing Data with JPA
 - Building a RESTful Web Service
+- Serving Web Content with Spring MVC
 
 ## License
 
