@@ -9,7 +9,7 @@ package com.example.springboot.demospringboot.repository;
  *
  * @author esaenz
  */
-import com.example.springboot.demospringboot.model.Customer;
+import com.example.springboot.demospringboot.model.Groups;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.repository.CrudRepository;
@@ -18,11 +18,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-@RepositoryRestResource(collectionResourceRel = "customer", path = "customer")
-public interface CustomerRepository extends CrudRepository<Customer, Integer> {
+@RepositoryRestResource(collectionResourceRel = "group", path = "group")
+public interface GroupRepository extends CrudRepository<Groups, Integer> {
 
-    Iterable<Customer> findByName(@Param("name") String name);
-    
-    @Query("SELECT c FROM Customer c INNER JOIN c.zip z WHERE z.zipCode=:zipCode")
-    Iterable<Customer> fetchByZipCode(@Param("zipCode") String zipCode);
 }

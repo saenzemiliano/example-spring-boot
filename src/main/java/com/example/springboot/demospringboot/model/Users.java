@@ -48,10 +48,7 @@ public class Users implements Serializable {
     @Size(max = 512)
     @Column(name = "PASSWORD")
     private String password;
-    @ManyToMany(mappedBy = "usersCollection")
-    private Collection<Groups> groupsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
-    private Collection<Authorities> authoritiesCollection;
+
 
     public Users() {
     }
@@ -84,23 +81,6 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    @XmlTransient
-    public Collection<Groups> getGroupsCollection() {
-        return groupsCollection;
-    }
-
-    public void setGroupsCollection(Collection<Groups> groupsCollection) {
-        this.groupsCollection = groupsCollection;
-    }
-
-    @XmlTransient
-    public Collection<Authorities> getAuthoritiesCollection() {
-        return authoritiesCollection;
-    }
-
-    public void setAuthoritiesCollection(Collection<Authorities> authoritiesCollection) {
-        this.authoritiesCollection = authoritiesCollection;
-    }
 
     @Override
     public int hashCode() {

@@ -56,8 +56,6 @@ public class Groups implements Serializable {
         @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME")})
     @ManyToMany
     private Collection<Users> usersCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groups")
-    private Collection<GroupAuthorities> groupAuthoritiesCollection;
 
     public Groups() {
     }
@@ -89,15 +87,6 @@ public class Groups implements Serializable {
 
     public void setUsersCollection(Collection<Users> usersCollection) {
         this.usersCollection = usersCollection;
-    }
-
-    @XmlTransient
-    public Collection<GroupAuthorities> getGroupAuthoritiesCollection() {
-        return groupAuthoritiesCollection;
-    }
-
-    public void setGroupAuthoritiesCollection(Collection<GroupAuthorities> groupAuthoritiesCollection) {
-        this.groupAuthoritiesCollection = groupAuthoritiesCollection;
     }
 
     @Override

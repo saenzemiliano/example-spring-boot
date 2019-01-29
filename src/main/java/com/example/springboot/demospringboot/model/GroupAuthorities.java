@@ -31,9 +31,6 @@ public class GroupAuthorities implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected GroupAuthoritiesPK groupAuthoritiesPK;
-    @JoinColumn(name = "GROUP_ID", referencedColumnName = "GROUP_ID", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Groups groups;
 
     public GroupAuthorities() {
     }
@@ -53,15 +50,6 @@ public class GroupAuthorities implements Serializable {
     public void setGroupAuthoritiesPK(GroupAuthoritiesPK groupAuthoritiesPK) {
         this.groupAuthoritiesPK = groupAuthoritiesPK;
     }
-
-    public Groups getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Groups groups) {
-        this.groups = groups;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
