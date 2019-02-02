@@ -17,15 +17,15 @@
         <title>System Name</title>
 
         <!-- Scripts JS-->
-        <script src="../vendor/jquery/jquery.js" ></script>
-        <script src="../vendor/bootstrap/js/bootstrap.min.js" ></script>
+        <script src="../../vendor/jquery/jquery.js" ></script>
+        <script src="../../vendor/bootstrap/js/bootstrap.min.js" ></script>
     
         <!-- Bootstrap core CSS-->
-        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
         <style>
             .card-login-app {
-                margin-top: 250px;
-                max-width: 25rem;
+                margin-top: 150px;
+                max-width: 35rem;
             }
         </style>
 
@@ -35,7 +35,7 @@
 
         <header class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
             <a class="navbar-brand" href="#">
-                <img src="../img/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top company-logo"
+                <img src="../../img/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top company-logo"
                      alt="" />
                 System Name
             </a>
@@ -52,38 +52,40 @@
 
         <div class="container card-login-app">
             <div class="card card-login mx-auto mt-5">
-                <div class="card-header">Login</div>
+                <div class="card-header">Peticion de Cambio de Password</div>
                 <div class="card-body">
-                    <form th:action="@{/page/login}" method="post">
-                        <div class="form-group">
-                            <div class="form-label-group" th:if="${param.error}">
-                                <div class="alert alert-danger" role="alert">Usuario o password incorrecta!</div> 
-                            </div>
-                            <div class="form-label-group" th:if="${param.logout}">
-                                <div class="alert alert-success" role="alert">Usted ha salido del sistema!</div> 
-                            </div>
-                        </div>
-                        
+                    <form  th:action="@{/page/public/reset-pwd}" method="post">                        
                         <div class="form-group">
                             <div class="form-label-group">
-                                <label for="username">Usuario</label>
-                                <input type="text" id="username" name="username"class="form-control" placeholder="Usuario...." required="required"
+                                <label for="document">Documento</label>
+                                <input type="number" id="document" class="form-control" placeholder="Documento..." required="required"
                                        autofocus="autofocus" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-label-group">
-                                <label for="password">Password</label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Password...." required="required" />
+                                <label for="birthDate">Fecha de nacimiento</label>
+                                <input type="date" id="birthDate" class="form-control" placeholder="Fecha de nacimiento..." required="required" />
                             </div>
                         </div>
-                        
                         <div class="form-group">
                             <div class="form-label-group">
-                                <a th:href="@{/page/public/reset-pwd}" target="_blank">¿Has olvidado los datos de la cuenta?</a>
+                                <label for="emailAlternative">Correo de recuperación</label>
+                                <input type="email" id="emailAlternative" class="form-control" placeholder="Email..." required="required" />
                             </div>
+                        </div>
+                        <div class="form-group">
                             <div class="form-label-group">
-                                <a th:href="@{/page/public/reset-pwd}" target="_blank">¿Quieres cambiar tu contraseña?</a>
+                            <label for="operation">Operación</label>
+                            <select class="form-control" id="operation">
+                                <option value="1" >Cambiar contraseña (voluntariamente)</option>
+                                <option value="2">Resetar contraseña (en caso de olvido)</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label-group" th:if="${param.success}">
+                                <div class="alert alert-success" role="alert">Peticion procesada, revise su e-mail.</div> 
                             </div>
                         </div>
                         <div class="form-group">
