@@ -5,13 +5,11 @@
  */
 package com.example.springboot.demospringboot.model;
 
-import java.util.Date;
-
 /**
  *
  * @author emiliano
  */
-public class PwdReset {
+public class FormPwdReset {
 
 
     
@@ -19,8 +17,35 @@ public class PwdReset {
     private String birthDate;
     private String emailAlternative;
     private String operation;
+    private String password;
+    private String newPassword;
+    private String newPasswordConfirm;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getNewPasswordConfirm() {
+        return newPasswordConfirm;
+    }
+
+    public void setNewPasswordConfirm(String newPasswordConfirm) {
+        this.newPasswordConfirm = newPasswordConfirm;
+    }
     
-    public PwdReset() {
+    public FormPwdReset() {
     }
 
     public String getDocument() {
