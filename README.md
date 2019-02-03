@@ -2,12 +2,12 @@
 
 ## Requirements
 
+- Maven Project
 - Securing a Web Application (LDAP Authentication and JDBC Authorization)
 - Accessing Data with JPA
 - Building a RESTful Web Service
 - Serving Web Content with Spring MVC
-- Serving Web Content with Spring MVC
--  Maven Project
+- Spring JavaMailSender
 
 ## License
 
