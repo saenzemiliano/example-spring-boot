@@ -6,17 +6,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value( "${spring.ldap.urls}" )
@@ -33,9 +37,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-         http.csrf().disable().authorizeRequests().anyRequest().permitAll();
-        /*http.authorizeRequests()
-                .antMatchers("/", "/resources/**", "/page/public/**").permitAll()
+         /*http.csrf().disable().authorizeRequests().anyRequest().permitAll();*/
+         http.authorizeRequests()
+                .antMatchers("/", 
+                        "/img/**",
+                        "/vendor/**",
+                        "/resources/**",
+                        "/page/public/**").permitAll()
                 .antMatchers("/repo/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
             .and()
@@ -44,40 +52,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
             .and()
                 .logout()
-                .permitAll();*/
+                .permitAll();
     }
-//
-//    @Bean
-//    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
-//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
-//        jdbcUserDetailsManager.setDataSource(dataSource);
-//
-//        UserDetails user
-//                = User.withUsername("user")
-//                        .password("password")
-//                        .roles("USER", "OPERATOR")
-//                        .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
-//                        .build();
-//
-//        UserDetails admin
-//                = User.withUsername("admin")
-//                        .password("password")
-//                        .roles("USER", "OPERATOR", "ADMIN")
-//                        .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
-//                        .build();
-//
-//        UserDetails oUser
-//                = User.withUsername("esaenz")
-//                        .password("")
-//                        .roles("USER", "OPERATOR")
-//                        .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
-//                        .build();
-//
-//        addUser(jdbcUserDetailsManager, user);
-//        addUser(jdbcUserDetailsManager, admin);
-//        addUser(jdbcUserDetailsManager, oUser);
-//        return jdbcUserDetailsManager;
-//    }
+
+    @Bean
+    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
+        jdbcUserDetailsManager.setDataSource(dataSource);
+
+        UserDetails user
+                = User.withUsername("user")
+                        .password("pass")
+                        .roles("USER", "OPERATOR")
+                        .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
+                        .build();
+
+        UserDetails admin
+                = User.withUsername("admin")
+                        .password("pass")
+                        .roles("USER", "OPERATOR", "ADMIN")
+                        .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
+                        .build();
+
+        UserDetails oUser
+                = User.withUsername("esaenz")
+                        .password("pass")
+                        .roles("USER", "OPERATOR")
+                        .passwordEncoder(x -> new BCryptPasswordEncoder().encode(x))
+                        .build();
+
+        addUser(jdbcUserDetailsManager, user);
+        addUser(jdbcUserDetailsManager, admin);
+        addUser(jdbcUserDetailsManager, oUser);
+        return jdbcUserDetailsManager;
+    }
 //
 //    @Override
 //    public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -102,28 +110,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 ////					.passwordAttribute("userPassword");
 //    }
 //
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 //    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user
+//                = User.withDefaultPasswordEncoder()
+//                        .username("user")
+//                        .password("password")
+//                        .roles("USER")
+//                        .build();
 //
-////    @Bean
-////    @Override
-////    public UserDetailsService userDetailsService() {
-////        UserDetails user
-////                = User.withDefaultPasswordEncoder()
-////                        .username("user")
-////                        .password("password")
-////                        .roles("USER")
-////                        .build();
-////
-////        return new InMemoryUserDetailsManager(user);
-////    }
-//    private void addUser(JdbcUserDetailsManager jdbcUserDetailsManager, UserDetails user) {
-//        if (!jdbcUserDetailsManager.userExists(user.getUsername())) {
-//            jdbcUserDetailsManager.createUser(user);
-//        } else {
-//            jdbcUserDetailsManager.updateUser(user);
-//        }
+//        return new InMemoryUserDetailsManager(user);
 //    }
+    private void addUser(JdbcUserDetailsManager jdbcUserDetailsManager, UserDetails user) {
+        if (!jdbcUserDetailsManager.userExists(user.getUsername())) {
+            jdbcUserDetailsManager.createUser(user);
+        } else {
+            jdbcUserDetailsManager.updateUser(user);
+        }
+    }
 }

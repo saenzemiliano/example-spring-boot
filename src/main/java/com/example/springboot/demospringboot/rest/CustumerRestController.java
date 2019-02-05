@@ -17,6 +17,7 @@ import com.example.springboot.demospringboot.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,8 +30,21 @@ public class CustumerRestController {
     @Autowired
     private CustomerRepository customerRepository;
     
+    
+    @RequestMapping("/all")
+    public Iterable<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/all/pre-authorize")
+    public Iterable<Customer> findAllPreAuthorize() {
+        return customerRepository.findAll();
+    }
+    
+    
     @RequestMapping("/{error}")
-    public Iterable<Customer> findAll(@PathVariable(value = "error") Integer error) {
+    public Iterable<Customer> findAllError(@PathVariable(value = "error") Integer error) {
         
         if(error==0) {
             return customerRepository.findAll();
