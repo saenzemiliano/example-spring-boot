@@ -2,16 +2,16 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.example.spring-boot_demo-spring-boot">
     <jta-data-source>java:mydatasource</jta-data-source>
-    <class>com.example.springboot.demospringboot.model.Manufacturer</class>
-    <class>com.example.springboot.demospringboot.model.ProductCode</class>
-    <class>com.example.springboot.demospringboot.model.Product</class>
-    <class>com.example.springboot.demospringboot.model.MicroMarket</class>
-    <class>com.example.springboot.demospringboot.model.DiscountCode</class>
-    <class>com.example.springboot.demospringboot.model.PurchaseOrder</class>
-    <class>com.example.springboot.demospringboot.model.Customer</class>
-    <class>com.example.springboot.demospringboot.model.Authorities</class>
-    <class>com.example.springboot.demospringboot.model.Users</class>
-    <class>com.example.springboot.demospringboot.model.GroupAuthorities</class>
-    <class>com.example.springboot.demospringboot.model.Groups</class>
+    <class>com.example.springboot.demospringboot.model.db.GroupAuthorities</class>
+    <class>com.example.springboot.demospringboot.model.db.PurchaseOrder</class>
+    <class>com.example.springboot.demospringboot.model.db.MicroMarket</class>
+    <class>com.example.springboot.demospringboot.model.db.Authorities</class>
+    <class>com.example.springboot.demospringboot.model.db.ProductCode</class>
+    <class>com.example.springboot.demospringboot.model.db.Product</class>
+    <class>com.example.springboot.demospringboot.model.db.DiscountCode</class>
+    <class>com.example.springboot.demospringboot.model.db.Customer</class>
+    <class>com.example.springboot.demospringboot.model.db.Groups</class>
+    <class>com.example.springboot.demospringboot.model.db.Manufacturer</class>
+    <class>com.example.springboot.demospringboot.model.db.Users</class>
   </persistence-unit>
 </persistence>

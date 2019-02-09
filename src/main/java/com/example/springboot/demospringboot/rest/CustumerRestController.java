@@ -10,7 +10,7 @@ package com.example.springboot.demospringboot.rest;
  * @author esaenz
  */
 import com.example.springboot.demospringboot.model.BankAccount;
-import com.example.springboot.demospringboot.model.Customer;
+import com.example.springboot.demospringboot.model.db.Customer;
 import com.example.springboot.demospringboot.model.ResponseRest;
 import com.example.springboot.demospringboot.model.ResponseRest;
 import com.example.springboot.demospringboot.repository.CustomerRepository;

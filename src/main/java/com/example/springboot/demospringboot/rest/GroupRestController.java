@@ -9,7 +9,7 @@ package com.example.springboot.demospringboot.rest;
  *
  * @author esaenz
  */
-import com.example.springboot.demospringboot.model.Groups;
+import com.example.springboot.demospringboot.model.db.Groups;
 import com.example.springboot.demospringboot.model.ResponseRest;
 import com.example.springboot.demospringboot.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -9,7 +9,7 @@ package com.example.springboot.demospringboot.repository;
  *
  * @author esaenz
  */
-import com.example.springboot.demospringboot.model.Groups;
+import com.example.springboot.demospringboot.model.db.Groups;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.repository.CrudRepository;

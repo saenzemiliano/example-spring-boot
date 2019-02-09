@@ -42,7 +42,7 @@ public class ScheduledTasks {
         logger.info("Fixed Rate Task with Initial Delay :: Execution Time - {}");
     }
 
-    @Scheduled(cron = "0 */10 * ? * ?") //Every 10 minutes
+    //@Scheduled(cron = "0 */10 * ? * ?") //Every 10 minutes
     public void scheduleTaskWithCronExpression() {
         logger.info("Cron Task :: Execution Time - {}");
     }

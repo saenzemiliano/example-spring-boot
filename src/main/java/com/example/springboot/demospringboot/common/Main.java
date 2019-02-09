@@ -12,6 +12,11 @@ import java.util.Properties;
  * @author emiliano
  */
 public class Main {
+    public static void main(String [] args) {
+        
+    }
+    
+    
      /*  public static void main(String [] args) {    
       // Recipient's email ID needs to be mentioned.
       String to = "abcd@gmail.com";
@@ -54,4 +59,9 @@ public class Main {
          mex.printStackTrace();
       }
    }*/
+
+    
 }
+
+
+

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.springboot.demospringboot.model;
+package com.example.springboot.demospringboot.model.db;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

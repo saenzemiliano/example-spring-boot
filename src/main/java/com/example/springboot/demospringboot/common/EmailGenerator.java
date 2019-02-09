@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.springboot.demospringboot.model;
+package com.example.springboot.demospringboot.common;
 
 import java.text.Normalizer;
 import java.util.Iterator;
@@ -22,13 +22,22 @@ public class EmailGenerator {
     private static final Integer RANDOM_LIMIT = 1000;
 
     public static void main(String[] args) {
-        Iterable<String> it = EmailGenerator.generate("Juàn", "Migüel", "Herñadez", "Marquóz");
+        Iterable<String> it = EmailGenerator.generate("@company-enzo.com.uy", "Juàn", "", "Herñadez", "");
         for (String cand : it) {
-            System.out.println(cand);
+            long startTime = System.currentTimeMillis();
+            System.out.print("Validating....["+ cand + "]...");
+            if(Tools.isValidate(cand)) {
+                System.out.print(AnsiColor.GREEN + "It's valid: [" + cand + "]" + AnsiColor.RESET);
+            } else {
+                System.out.print(AnsiColor.RED + "It's not valid: [" + cand + "]" + AnsiColor.RESET);
+            }
+            long estimatedTime = System.currentTimeMillis() - startTime;
+            System.out.println("...Time.."+estimatedTime+".."+ estimatedTime/1000 + "s");
         }
+        
     }
 
-    public static Iterable<String> generate(String name1, String name2, String surname1, String surname2) {
+    public static Iterable<String> generate(String domain, String name1, String name2, String surname1, String surname2) {
         //Emiliano Jose Saenz Perdomo
         List<String> candidates = new LinkedList<>();
 
@@ -61,17 +70,18 @@ public class EmailGenerator {
             candidates.add(name1 + "|" + surname1 + RAND.nextInt(RANDOM_LIMIT));
         }
 
-        candidates = replaceDot(candidates, VALID_CHARACTERS);
+        candidates = replaceDot(candidates, VALID_CHARACTERS, domain);
 
         return candidates;
     }
 
-    private static List<String> replaceDot(List<String> candidates, String[] chracts) {
+    private static List<String> replaceDot(List<String> candidates, String[] chracts, String domain) {
         List<String> cands = new LinkedList<>();
 
         for (String chract : chracts) {
             candidates.forEach((candidate) -> {
-                cands.add(unaccent(candidate).replace("|", chract).toLowerCase());
+                String email = unaccent(candidate).replace("|", chract).toLowerCase() + domain;
+                cands.add(email);
             });
         }
 
