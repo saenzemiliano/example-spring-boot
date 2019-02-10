@@ -5,18 +5,25 @@
  */
 package com.example.springboot.demospringboot.common;
 
+import com.example.springboot.demospringboot.model.db.Customer;
+import com.example.springboot.demospringboot.model.db.Employee;
+
 
 /**
  *
  * @author emiliano
  */
-class Tools {
+public class Tools {
+    
+    public static Customer toCustomer(Employee employee) {
+        return new Customer();
+    }
 
-    static boolean isValidate(String cand) {
+    public static boolean isValidate(String cand) {
         return cand.matches(Constant.VALID_EMAIL_ADDRESS_REGEX);
     }
     
-    static boolean isValidateCompany(String cand) {
+    public static boolean isValidateCompany(String cand) {
         return cand.matches(Constant.VALID_COMPANY_EMAIL_ADDRESS_REGEX);
     }
 }

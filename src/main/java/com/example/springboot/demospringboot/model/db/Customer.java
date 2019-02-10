@@ -44,6 +44,11 @@ public class Customer implements Serializable {
     @Basic(optional = false)
     @Column(name = "CUSTOMER_ID")
     private Integer customerId;
+    @Size(max = 30)    
+    @Column(name = "TYPE_DOCUMENT")
+    private String typeDocument;
+    @Size(max = 30)
+    private String document;
     @Size(max = 30)
     @Column(name = "NAME")
     private String name;
@@ -93,6 +98,22 @@ public class Customer implements Serializable {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    }
+    
+    public String getTypeDocument() {
+        return typeDocument;
+    }
+
+    public void setTypeDocument(String typeDocument) {
+        this.typeDocument = typeDocument;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
     }
 
     public String getName() {

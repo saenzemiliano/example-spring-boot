@@ -10,6 +10,7 @@ package com.example.springboot.demospringboot.repository;
  * @author esaenz
  */
 import com.example.springboot.demospringboot.model.db.Customer;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.repository.CrudRepository;
@@ -24,4 +25,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
     
     @Query("SELECT c FROM Customer c INNER JOIN c.zip z WHERE z.zipCode=:zipCode")
     Iterable<Customer> fetchByZipCode(@Param("zipCode") String zipCode);
+    
+    @Query("SELECT c FROM Customer c WHERE c.typeDocument=:typeDocument AND c.document=:document")
+    public Optional<Customer> fetchByAlternativeSource(String typeDocument, String document);
 }
