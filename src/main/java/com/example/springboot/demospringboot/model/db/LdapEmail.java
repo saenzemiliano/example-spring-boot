@@ -23,19 +23,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author emiliano
  */
 @Entity
-@Table(name = "DATA_HHRR_EMPLOYEE")
+@Table(name = "DATA_LDAP_EMAIL")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
-    , @NamedQuery(name = "Employee.fetchBySycnState", query = "SELECT e FROM Employee e WHERE e.sycnState = :sycnState")})
-public class Employee implements Serializable {
+    @NamedQuery(name = "LdapEmail.findAll", query = "SELECT l FROM LdapEmail l")
+    , @NamedQuery(name = "LdapEmail.fetchBySycnState", query = "SELECT l FROM LdapEmail l WHERE l.sycnState = :sycnState")})
+public class LdapEmail implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "EMPLOYEE_ID")
-    private Integer employeeId;
+    @Column(name = "CUSTOMER_ID")
+    private Integer customerId;
     private String fullName;
     private String typeDocument;
     private String document;
@@ -50,12 +50,12 @@ public class Employee implements Serializable {
 
 
     
-    public Integer getEmployeeId() {
-        return employeeId;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
     
     public String getFullName() {
