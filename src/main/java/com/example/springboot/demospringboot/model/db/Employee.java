@@ -23,19 +23,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author emiliano
  */
 @Entity
-@Table(name = "EMPLOYEE")
+@Table(name = "DATA_HHRR_EMPLOYEE")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
-    , @NamedQuery(name = "Employee.fetchBySycnState", query = "SELECT e FROM Employee e WHERE e.sycnState = :sycnState")})
+    , @NamedQuery(name = "Employee.fetchBySycnState", query = "SELECT e FROM Employee e WHERE e.syncState = :syncState")})
 public class Employee implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "CUSTOMER_ID")
-    private Integer customerId;
+    @Column(name = "EMPLOYEE_ID")
+    private Integer employeeId;
     private String fullName;
     private String typeDocument;
     private String document;
@@ -44,18 +44,18 @@ public class Employee implements Serializable {
     private String email;
     private String emailSecunadary;
     private String otherDescription;
-    private String sycnState; //UPD|SYC|ERR
+    private String syncState; //UPD|SYC|ERR
     @Temporal(TemporalType.TIMESTAMP)
     private Date modDate;
 
 
     
-    public Integer getCustomerId() {
-        return customerId;
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
     
     public String getFullName() {
@@ -106,14 +106,7 @@ public class Employee implements Serializable {
         this.otherDescription = otherDescription;
     }
     
-    
-    public String getSycnState() {
-        return sycnState;
-    }
 
-    public void setSycnState(String sycnState) {
-        this.sycnState = sycnState;
-    }
     
     public Date getModDate() {
         return modDate;
@@ -139,4 +132,12 @@ public class Employee implements Serializable {
     public void setEmailSecunadary(String emailSecunadary) {
         this.emailSecunadary = emailSecunadary;
     }
+
+	public String getSyncState() {
+		return syncState;
+	}
+
+	public void setSyncState(String syncState) {
+		this.syncState = syncState;
+	}
 }

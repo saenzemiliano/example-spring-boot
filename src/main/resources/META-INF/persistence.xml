@@ -13,5 +13,7 @@
     <class>com.example.springboot.demospringboot.model.db.Groups</class>
     <class>com.example.springboot.demospringboot.model.db.Manufacturer</class>
     <class>com.example.springboot.demospringboot.model.db.Users</class>
+    <class>com.example.springboot.demospringboot.model.db.Employee</class>
+    <class>com.example.springboot.demospringboot.model.db.DataEmail</class>
   </persistence-unit>
 </persistence>

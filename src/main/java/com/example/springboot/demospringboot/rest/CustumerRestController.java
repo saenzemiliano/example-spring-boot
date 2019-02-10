@@ -5,23 +5,19 @@
  */
 package com.example.springboot.demospringboot.rest;
 
-/**
- *
- * @author esaenz
- */
-import com.example.springboot.demospringboot.model.BankAccount;
-import com.example.springboot.demospringboot.model.db.Customer;
-import com.example.springboot.demospringboot.model.ResponseRest;
-import com.example.springboot.demospringboot.model.ResponseRest;
-import com.example.springboot.demospringboot.repository.CustomerRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.springboot.demospringboot.model.ResponseRest;
+import com.example.springboot.demospringboot.model.db.Customer;
+import com.example.springboot.demospringboot.repository.CustomerRepository;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -82,6 +78,21 @@ public class CustumerRestController {
     public Iterable<Customer> findByZip(@PathVariable(value = "zip") String zip) {
         return customerRepository.fetchByZipCode(zip);
     }
+
+	public Optional<Customer> fetchByAlternativeSource(String typeDocument, String document) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Customer save(Customer customer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Optional<Customer> fetchByDocumentAndTypeDocument(String typeDocument, String document) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
     
