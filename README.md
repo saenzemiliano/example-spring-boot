@@ -8,6 +8,17 @@
 - Building a RESTful Web Service
 - Serving Web Content with Spring MVC
 - Spring JavaMailSender
+- Configuration for Multiple Profiles (dev, prod)
+## Build
+
+### Dev Profile
+```
+mvn  -P dev spring-boot:run -Dspring.profiles.active=dev
+```
+### Prod Profile
+```
+mvn clean package -P prod -Dspring.profiles.active=prod
+```
 
 ## License
 

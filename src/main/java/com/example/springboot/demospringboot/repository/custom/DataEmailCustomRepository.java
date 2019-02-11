@@ -24,7 +24,7 @@ public class DataEmailCustomRepository {
 
     private static final Logger logger = Logger.getLogger(DataEmailCustomRepository.class.getName());
     
-    @PersistenceContext(unitName = Constant.PERSIST_UNIT_NAME)
+    @PersistenceContext
     private EntityManager em;
 
     @SuppressWarnings("unchecked")
