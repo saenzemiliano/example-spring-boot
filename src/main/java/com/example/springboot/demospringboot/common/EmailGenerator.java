@@ -26,10 +26,10 @@ public class EmailGenerator {
         for (String cand : it) {
             long startTime = System.currentTimeMillis();
             System.out.print("Validating....["+ cand + "]...");
-            if(Tools.isValidate(cand)) {
-                System.out.print(AnsiColor.GREEN + "It's valid: [" + cand + "]" + AnsiColor.RESET);
+            if(Tools.isEmailValidAlternaive(cand)) {
+                System.out.print("It's valid: [" + cand + "]");
             } else {
-                System.out.print(AnsiColor.RED + "It's not valid: [" + cand + "]" + AnsiColor.RESET);
+                System.out.print("It's not valid: [" + cand + "]");
             }
             long estimatedTime = System.currentTimeMillis() - startTime;
             System.out.println("...Time.."+estimatedTime+".."+ estimatedTime/1000 + "s");
