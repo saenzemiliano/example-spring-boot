@@ -13,11 +13,11 @@
 
 ### Dev Profile
 ```
-mvn  -P dev spring-boot:run -Dspring.profiles.active=dev
+mvn -P dev spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 ### Prod Profile
 ```
-mvn clean package -P prod -Dspring.profiles.active=prod
+mvn clean package -P prod
 ```
 
 ## License
