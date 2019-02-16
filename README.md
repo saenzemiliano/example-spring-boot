@@ -9,6 +9,7 @@
 - Serving Web Content with Spring MVC
 - Spring JavaMailSender
 - Configuration for Multiple Profiles (dev, prod)
+
 ## Build
 
 ### Dev Profile
