@@ -5,6 +5,8 @@
  */
 package com.example.springboot.demospringboot.common;
 
+import javax.xml.bind.JAXBElement;
+
 import com.example.springboot.demospringboot.model.db.Customer;
 import com.example.springboot.demospringboot.model.db.Employee;
 
@@ -14,6 +16,13 @@ import com.example.springboot.demospringboot.model.db.Employee;
  * @author emiliano
  */
 public class Tools {
+	
+	public static <T> T toValue(JAXBElement<T> t) {
+		if(t!=null) {
+			return t.getValue();
+		}
+        return null;
+    }
     
     public static Customer toCustomer(Employee employee) {
         return new Customer();
