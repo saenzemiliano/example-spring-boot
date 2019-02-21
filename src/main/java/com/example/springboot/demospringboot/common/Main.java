@@ -5,7 +5,7 @@
  */
 package com.example.springboot.demospringboot.common;
 
-import java.util.Properties;
+import com.example.springboot.demospringboot.common.PwdGenerator.PwdGeneratorBuilder;
 
 /**
  *
@@ -13,6 +13,16 @@ import java.util.Properties;
  */
 public class Main {
     public static void main(String [] args) {
+    	PwdGenerator passwordGenerator = new PwdGeneratorBuilder()
+    	        .useDigits(true, 2)
+    	        .useLower(true, 1)
+    	        .useUpper(true, 1)
+    	        .build();
+    	
+    	
+    	for (int i = 0; i < 500; i++) {
+    		System.out.println(passwordGenerator.generate(8));
+		}
         
     }
     
