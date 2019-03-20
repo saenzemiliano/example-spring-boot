@@ -1,5 +1,4 @@
 package com.example.springboot.demospringboot.common;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,6 +11,7 @@ import java.util.logging.Logger;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.compress.utils.SeekableInMemoryByteChannel;
+import org.apache.commons.io.IOUtils;
 
 public class CompressUtil {
 
@@ -33,69 +33,54 @@ public class CompressUtil {
 	}
 
 	public static boolean unzip(byte[] blob, String pathDest) throws Exception {
-		
+
 		InputStream inputStream = null;
-		OutputStream outStream = null;
-		ZipFile zipFile = null;
+		FileOutputStream fileOutputStream = null;
+		
+		SeekableInMemoryByteChannel inMemoryByteChannel = new SeekableInMemoryByteChannel(blob);
+		ZipFile zipFile = new ZipFile(inMemoryByteChannel);
 		
 		try {
-			SeekableInMemoryByteChannel inMemoryByteChannel = new SeekableInMemoryByteChannel(blob);
-			zipFile = new ZipFile(inMemoryByteChannel);
-			
 			Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
 			while (entries.hasMoreElements()) {
 				ZipArchiveEntry zipArchiveEntry = entries.nextElement();
-				
-				if (zipArchiveEntry.getName().endsWith(File.separator)) {
-					File dir = new File(pathDest + File.separator + zipArchiveEntry.getName());
-					// TODO: No funciona cuando se intenta descomprimir un directorio
-					if (!dir.exists()) {
-						dir.mkdirs();
+				File file = new File(pathDest, zipArchiveEntry.getName());
+				if (zipArchiveEntry.isDirectory()) {
+					file.mkdirs();
+				} else {
+					inputStream = zipFile.getInputStream(zipArchiveEntry);
+					File parent = file.getParentFile();
+					if (parent != null && parent.exists() == false) {
+						parent.mkdirs();
 					}
-					
-					continue;
+					fileOutputStream = new FileOutputStream(file);
+					try {
+						IOUtils.copy(inputStream, fileOutputStream);
+					} finally {
+						closeInputStream(inputStream);
+						closeOutputStream(fileOutputStream);
+						closeZipFile(zipFile);
+					}
 				}
-
-				File outFile = new File(pathDest + File.separator + zipArchiveEntry.getName());
-
-				if (outFile.isDirectory()) {
-					continue;
-				}
-
-				if (outFile.exists()) {
-					continue;
-				}
-
-				inputStream = zipFile.getInputStream(zipArchiveEntry);
-				byte[] buffer = new byte[inputStream.available()];
-				inputStream.read(buffer);
-
-				outStream = new FileOutputStream(outFile);
-				outStream.write(buffer);
-				// cierro archivos
-
 			}
-
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			throw e;
 		} finally {
 			closeInputStream(inputStream);
-			closeOutputStream(outStream);
+			closeOutputStream(fileOutputStream);
 			closeZipFile(zipFile);
 		}
-		
+
 		return true;
+
 	}
 
 	private static void closeZipFile(ZipFile zipFile) {
 		try {
-			if (zipFile != null)
-				zipFile.close();
+			if (zipFile != null) {
+				ZipFile.closeQuietly(zipFile);
+			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-
 	}
 
 	private static void closeInputStream(InputStream inputStream) {
