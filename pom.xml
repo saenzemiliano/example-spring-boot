@@ -69,10 +69,6 @@
 			<artifactId>spring-security-ldap</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.unboundid</groupId>
-			<artifactId>unboundid-ldapsdk</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
@@ -83,12 +79,22 @@
 			<artifactId>derbyclient</artifactId>
 			<version>10.14.2.0</version>
 		</dependency>
-		<!-- https://github.com/spring-projects/spring-boot/issues/15044 -->
-		<!--<dependency> <groupId>org.eclipse.persistence</groupId> <artifactId>eclipselink</artifactId> 
-			<version>${org.eclipse.persistence.version}</version> <scope>provided</scope> 
-			</dependency> <dependency> <groupId>org.eclipse.persistence</groupId> <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId> 
-			<version>${org.eclipse.persistence.version}</version> <scope>provided</scope> 
-			</dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.18</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.unboundid</groupId>
+			<artifactId>unboundid-ldapsdk</artifactId>
+		</dependency>
 
 
 		<dependency>
@@ -106,19 +112,7 @@
 			<artifactId>json-path</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-compress</artifactId>
-			<version>1.18</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
-		</dependency>
-		
+
 
 
 	</dependencies>
